@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Rainy Hills</title>
+    <style>
+        p {text-align: center;font-family: Verdana,monospace}
+        .rotated {
+            text-align: left;
+            font-family: monospace;
+            writing-mode: vertical-rl;
+            transform: rotate(180deg);
+            white-space: nowrap;
+            display: inline-block;
+            overflow: visible;
+        }
+        .centered{
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<h1><p>Rainy Hills</p></h1>
+    <!--replacing \n newlines with HTML <br> newlines-->
+    <div>
+        <div class="centered">
+            <div class="rotated" th:utext="${#strings.replace(#strings.escapeXml(wetmap),'&#10;','&lt;br&gt;')}"></div>
+        </div>
+    </div>
+    <h4>
+        <p th:text="'Map: '+${heightmap}"></p>
+        <p th:text="'Total volume: '+${volume}"></p>
+        <p th:text="'Total gaps: '+${gaps}"></p>
+        <p><a th:href="${'/rainyhills'}">Generate another one</a></p>
+        <p><a th:href="${'/rainyhills/rest/volume?map='+heightmap}">Try REST</a></p>
+    </h4>
+</body>
+</html>
