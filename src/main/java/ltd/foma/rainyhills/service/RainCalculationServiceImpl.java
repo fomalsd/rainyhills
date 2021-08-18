@@ -3,6 +3,9 @@ package ltd.foma.rainyhills.service;
 import ltd.foma.rainyhills.data.GapData;
 import ltd.foma.rainyhills.data.RainCalculationData;
 import org.slf4j.Logger;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.lang.invoke.MethodHandles;
@@ -15,13 +18,19 @@ import static org.slf4j.LoggerFactory.getLogger;
  * Rain water calculation logic goes here
  */
 @Service
+@CacheConfig(cacheNames = "calculations")
 public class RainCalculationServiceImpl implements IRainCalculationService {
     private static final Logger log = getLogger( MethodHandles.lookup().lookupClass() );
+    private Set<RainCalculationData> calculations = new HashSet<>();
+
+    @Value("${spring.profiles.active:}")
+    private String activeProfile;
 
     /**
      * Main calculation method
      */
     @Override
+    @Cacheable
     public RainCalculationData calculate(int[] heightMap) {
         if (heightMap == null){
             heightMap = new int[0];
@@ -40,11 +49,21 @@ public class RainCalculationServiceImpl implements IRainCalculationService {
             totalVolume += volumeForGap(map, gapData, waterMap);
         }
 
+        if(activeProfile.equals("dev")){
+            try {
+                log.info("simulating long ops");
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                log.error("Oops",e);
+            }
+        }
+
         RainCalculationData rainCalculationData = new RainCalculationData();
         rainCalculationData.setHeightMap(map);
         rainCalculationData.setWaterMap(waterMap);
         rainCalculationData.setGaps(gapSet);
         rainCalculationData.setTotalVolume(totalVolume);
+        calculations.add(rainCalculationData);
         return rainCalculationData;
     }
 
@@ -131,5 +150,4 @@ public class RainCalculationServiceImpl implements IRainCalculationService {
     private int getWaterLevel(List<Integer> heightMap, GapData gap){
         return Math.min(heightMap.get(gap.start), heightMap.get(gap.end));
     }
-
 }
