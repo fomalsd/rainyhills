@@ -8,18 +8,18 @@ public class HillRandomizer {
 
     private static final int minHeight = -3;
     private static final int maxHeight = 15;
+    private static final Random RANDOM = new Random();
 
     /**
      * Generates a random height map for hills as int array
      */
     public static int[] getRandomMapInt(){
-        Random random = new Random();
-        int length = random.nextInt(maxLength - minLength) + minLength;
+        int length = RANDOM.nextInt(maxLength - minLength) + minLength;
 
         int[] map = new int[length];
 
         for (int i = 0; i < length; i++) {
-            int height = random.nextInt(maxHeight - minHeight) + minHeight;
+            int height = RANDOM.nextInt(maxHeight - minHeight) + minHeight;
             map[i] = height;
         }
         return map;
@@ -31,13 +31,12 @@ public class HillRandomizer {
     public static String getRandomMapString(){
         StringBuilder sb = new StringBuilder();
 
-        Random random = new Random();
-        int length = random.nextInt(maxLength - minLength) + minLength;
+        int length = RANDOM.nextInt(maxLength - minLength) + minLength;
         for (int i = 0; i < length; i++) {
             if (i > 0){
                 sb.append(',');
             }
-            int height = random.nextInt(maxHeight - minHeight) + minHeight;
+            int height = RANDOM.nextInt(maxHeight - minHeight) + minHeight;
             sb.append(height);
         }
         return sb.toString();
