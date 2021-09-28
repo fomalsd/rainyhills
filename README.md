@@ -1,5 +1,6 @@
 ## Rainy Hills
-CRX Markets test task
+CRX Markets test task.
+For task description see RainyHills.pdf
 
 ### Technologies used
 * Java 11
@@ -8,7 +9,7 @@ CRX Markets test task
 * SLF4J
 
 ### Complexity
-Time: O(n log(n)) \
+Time: O(n) \
 Memory: O(n)
 
 ### How to run
