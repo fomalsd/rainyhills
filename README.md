@@ -3,7 +3,7 @@ CRX Markets test task.
 For task description see RainyHills.pdf
 
 ### Technologies used
-* Java 11
+* Java 8
 * Spring Boot
 * JUnit
 * SLF4J
@@ -14,7 +14,7 @@ Memory: O(n)
 
 ### How to run
 #### Requirements:
-* JDK 11
+* JDK 8
 * Maven
 
 ### Execution Commands

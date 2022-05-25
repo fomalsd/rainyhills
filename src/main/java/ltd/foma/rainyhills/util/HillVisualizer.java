@@ -5,6 +5,8 @@ import org.slf4j.Logger;
 
 import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import static org.slf4j.LoggerFactory.getLogger;
@@ -34,8 +36,8 @@ public class HillVisualizer {
      * Draw hills with calculated water added
      */
     public static String drawWetMap(RainCalculationData calculationResult){
-        var heightMap = calculationResult.getHeightMap();
-        var waterMap = calculationResult.getWaterMap();
+        List<Integer> heightMap = calculationResult.getHeightMap();
+        int[] waterMap = calculationResult.getWaterMap();
 
         //get minimal height in the height map if it's < 0
         //to avoid map cropping with less-than-zero values
@@ -48,7 +50,7 @@ public class HillVisualizer {
 
         //below-zero meter
         if (minHeight < 0){
-            sb.append("| ".repeat(Math.abs(minHeight)-1))
+            sb.append(String.join("",Collections.nCopies(Math.abs(minHeight)-1,"| ")))
                 .append("0")
                 .append("\n")
                 .append("\n");
@@ -56,8 +58,8 @@ public class HillVisualizer {
 
         for (int i = 0; i < heightMap.size(); i++) {
             int heightValue = heightMap.get(i) - minHeight;
-            sb.append("X ".repeat(heightValue));
-            sb.append(". ".repeat(waterMap[i]));
+            sb.append(String.join("",Collections.nCopies(heightValue,"X ")));
+            sb.append(String.join("",Collections.nCopies(waterMap[i],". ")));
             sb.append("\n");
         }
 
